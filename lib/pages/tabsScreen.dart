@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mealapp/pages/favourites.dart';
 import 'package:mealapp/widget/gridViewScreen.dart';
+import 'package:mealapp/widget/tabScreenDrawer.dart';
 
 class TabsScreen extends StatefulWidget {
   @override
@@ -8,7 +9,10 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  final List<Widget> _pages = [CategoriesGridView(), Favourite()];
+  final List<Map<String, dynamic>> _pages = [
+    {'page': CategoriesGridView(), 'title': 'Category'},
+    {'page': Favourite(), 'title': 'Your favourite'}
+  ];
 
   int _selectedPageIndex = 0;
 
@@ -23,9 +27,12 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Deli Meals'),
+        title: Text(_pages[_selectedPageIndex]['title']),
       ),
-      body: _pages[_selectedPageIndex],
+      drawer: Drawer(
+        child: CustomDrawer(),
+      ),
+      body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectedPage,
         backgroundColor: Theme.of(context).primaryColor,

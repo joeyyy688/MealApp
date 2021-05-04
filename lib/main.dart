@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:mealapp/pages/category_meals.dart';
+import 'package:mealapp/pages/filters.dart';
 import 'package:mealapp/pages/mealDetailsPage.dart';
 import 'package:mealapp/pages/tabsScreen.dart';
 import 'package:mealapp/widget/gridViewScreen.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => TabsScreen(),
         CategoryMeals.routeName: (context) => CategoryMeals(),
         MealDetails.routeName: (context) => MealDetails(),
+        Filters.routeName: (context) => Filters(),
       },
       //home: MyHomePage(),
     );

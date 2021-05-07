@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mealapp/models/dummyData.dart';
 
 class MealDetails extends StatefulWidget {
+  final Function toggleFavouriteFuction;
+  final Function isFavourite;
   static const routeName = '/mealDetails';
+
+  const MealDetails({Key key, this.toggleFavouriteFuction, this.isFavourite})
+      : super(key: key);
   @override
   _MealDetailsState createState() => _MealDetailsState();
 }
@@ -100,12 +105,11 @@ class _MealDetailsState extends State<MealDetails> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.delete),
-        onPressed: () {
-          Navigator.of(context).pop('$mealId');
-          print('delete button pressed');
-        },
-      ),
+          child:
+              Icon(widget.isFavourite(mealId) ? Icons.star : Icons.star_border),
+          onPressed: () {
+            widget.toggleFavouriteFuction(mealId);
+          }),
     );
   }
 }

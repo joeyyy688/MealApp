@@ -63,7 +63,6 @@ class _CategoryMealsState extends State<CategoryMeals> {
               imageUrl: displayedMeals[index].imageUrl,
               title: displayedMeals[index].title,
               id: displayedMeals[index].id,
-              removeItem: _removeMeal,
             );
           },
         ));

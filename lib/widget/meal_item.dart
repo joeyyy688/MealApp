@@ -9,6 +9,7 @@ class MealItem extends StatefulWidget {
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
+  final Function removeItem;
 
   const MealItem(
       {Key key,
@@ -17,7 +18,8 @@ class MealItem extends StatefulWidget {
       @required this.duration,
       @required this.complexity,
       @required this.affordability,
-      @required this.id})
+      @required this.id,
+      @required this.removeItem})
       : super(key: key);
 
   @override
@@ -70,6 +72,11 @@ class _MealItemState extends State<MealItem> {
   void goToMealDetails(context) {
     Navigator.of(context).pushNamed(MealDetails.routeName, arguments: {
       'id': widget.id,
+    }).then((value) {
+      print(value);
+      if (value != null) {
+        widget.removeItem(value);
+      }
     });
   }
 

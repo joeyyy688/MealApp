@@ -43,61 +43,69 @@ class _MealDetailsState extends State<MealDetails> {
         DUMMY_MEALS.firstWhere((element) => element.id == mealId);
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text('${filteredData.title}'),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: 300,
-                width: double.infinity,
-                child: Image.network(
-                  filteredData.imageUrl,
-                  fit: BoxFit.cover,
-                ),
+      appBar: AppBar(
+        title: Text('${filteredData.title}'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 300,
+              width: double.infinity,
+              child: Image.network(
+                filteredData.imageUrl,
+                fit: BoxFit.cover,
               ),
-              _buildSectionContainer('Ingredient'),
-              _buildContainer(
-                ListView.builder(
-                  itemCount: filteredData.ingredients.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      color: Theme.of(context).accentColor,
-                      child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                          child: Text(filteredData.ingredients[index])),
-                    );
-                  },
-                ),
+            ),
+            _buildSectionContainer('Ingredient'),
+            _buildContainer(
+              ListView.builder(
+                itemCount: filteredData.ingredients.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: Theme.of(context).accentColor,
+                    child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                        child: Text(filteredData.ingredients[index])),
+                  );
+                },
               ),
-              _buildSectionContainer('Steps to Prepare'),
-              _buildContainer(
-                ListView.builder(
-                  itemCount: filteredData.steps.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        ListTile(
-                          leading: CircleAvatar(
-                            child: Text('# ${index + 1}'),
-                          ),
-                          title: Text(filteredData.steps[index]),
+            ),
+            _buildSectionContainer('Steps to Prepare'),
+            _buildContainer(
+              ListView.builder(
+                itemCount: filteredData.steps.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      ListTile(
+                        leading: CircleAvatar(
+                          child: Text('# ${index + 1}'),
                         ),
-                        Divider(
-                          color: Colors.grey[850],
-                        )
-                      ],
-                    );
-                  },
-                ),
+                        title: Text(filteredData.steps[index]),
+                      ),
+                      Divider(
+                        color: Colors.grey[850],
+                      )
+                    ],
+                  );
+                },
               ),
-              SizedBox(
-                height: 60,
-              )
-            ],
-          ),
-        ));
+            ),
+            SizedBox(
+              height: 60,
+            )
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.delete),
+        onPressed: () {
+          Navigator.of(context).pop('$mealId');
+          print('delete button pressed');
+        },
+      ),
+    );
   }
 }

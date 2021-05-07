@@ -1,18 +1,54 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:mealapp/models/dummyData.dart';
+import 'package:mealapp/models/meal.dart';
 import 'package:mealapp/pages/category_meals.dart';
 import 'package:mealapp/pages/filters.dart';
 import 'package:mealapp/pages/mealDetailsPage.dart';
 import 'package:mealapp/pages/tabsScreen.dart';
-import 'package:mealapp/widget/gridViewScreen.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Map<String, bool> _filters = {
+    'gluten': false,
+    'lactose': false,
+    'vegan': false,
+    'vegetarian': false
+  };
+
+  List<Meal> availableMeals = DUMMY_MEALS;
+
+  void _setFilters(Map<String, bool> filterData) {
+    setState(() {
+      _filters = filterData;
+      availableMeals = DUMMY_MEALS.where((element) {
+        if (_filters['gluten'] && !element.isGlutenFree) {
+          return false;
+        }
+        if (_filters['lactose'] && !element.isLactoseFree) {
+          return false;
+        }
+        if (_filters['vegan'] && !element.isVegan) {
+          return false;
+        }
+        if (_filters['vegetarian'] && !element.isVegetarian) {
+          return false;
+        }
+        return true;
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,13 +62,18 @@ class MyApp extends StatelessWidget {
               bodyText1: TextStyle(color: Color.fromRGBO(20, 51, 51, 1)),
               bodyText2: TextStyle(color: Color.fromRGBO(20, 51, 51, 1)),
               headline6:
-                  TextStyle(fontSize: 21, fontFamily: 'RobotCondensed'))),
+                  TextStyle(fontSize: 20, fontFamily: 'RobotCondensed'))),
       initialRoute: '/',
       routes: {
         '/': (context) => TabsScreen(),
-        CategoryMeals.routeName: (context) => CategoryMeals(),
+        CategoryMeals.routeName: (context) => CategoryMeals(
+              availableMeals: availableMeals,
+            ),
         MealDetails.routeName: (context) => MealDetails(),
-        Filters.routeName: (context) => Filters(),
+        Filters.routeName: (context) => Filters(
+              filtersFunction: _setFilters,
+              currentFiltersData: _filters,
+            ),
       },
       //home: MyHomePage(),
     );
